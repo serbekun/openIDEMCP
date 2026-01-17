@@ -1,0 +1,14 @@
+2026-01-17T13:47:44.118731069 127.0.0.1 request /v0/api/ask_model
+2026-01-17T13:47:44.156230829 Model: gemma3:1b, Prompt decoded length: 5
+2026-01-17T13:47:44.874856439 Error in generate.execute(): No serializer found for class http.dto.AskModelResponse and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS)
+2026-01-17T13:49:09.962028754 127.0.0.1 request /v0/api/ask_model
+2026-01-17T13:49:10.001036920 Model: gemma3:1b, Prompt decoded length: 5
+2026-01-17T13:49:21.121306112 127.0.0.1 request /v0/api/health
+2026-01-17T13:49:21.125415737 127.0.0.1 request /v0/api/ask_model
+2026-01-17T13:49:21.125844905 Model: gemma3:1b, Prompt decoded length: 5
+2026-01-17T13:52:30.727237101 127.0.0.1 request /v0/api/health
+2026-01-17T13:52:30.768102832 127.0.0.1 request /v0/api/ask_model
+2026-01-17T13:52:30.780774874 Model: gemma3:1b, Prompt decoded length: 5
+2026-01-17T13:57:12.269690415 127.0.0.1 request /v0/api/health
+2026-01-17T13:57:12.314169538 127.0.0.1 request /v0/api/ask_model
+2026-01-17T13:57:12.327198054 Model: gemma3:1b, Prompt decoded length: 5

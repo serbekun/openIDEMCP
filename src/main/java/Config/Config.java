@@ -11,6 +11,8 @@ public class Config {
 
     private String logFile;
 
+    private String ollamaBaseUrl;
+
     private List<String> needFolders;
 
     public Config() {
@@ -21,10 +23,14 @@ public class Config {
 
         this.port = 8080;
         this.logFile = server_folder + "log.log";
+    
+        this.ollamaBaseUrl = "http://localhost:11434/";
     }
+
 
     public synchronized int getPort() { return port; }
     public synchronized String getLogFile() { return logFile; }
+    public synchronized String getOllamaBaseUrl() { return ollamaBaseUrl; }
 
     public synchronized List<String> getNeedFolders() {
 

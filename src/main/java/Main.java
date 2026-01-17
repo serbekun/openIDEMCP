@@ -5,6 +5,9 @@ import http.Server;
 
 import java.io.File;
 
+// temp
+import servers.Ollama.dto.GenerateResponse;
+
 public class Main {
 
     /**
@@ -27,7 +30,7 @@ public class Main {
         
         // init server need data
         Config config = new Config(); 
-        State state = new State();
+        State state = new State(config);
 
         // getting needFolders List 
         List<String> needFolders = config.getNeedFolders();
@@ -38,7 +41,7 @@ public class Main {
         // make http-server-thread
         Thread httpServerThread = new Thread(() -> {
             Server server = new Server(state.getSvr(),
-                    config.getPort(), config.getLogFile());
+                    config.getPort(), config.getLogFile(), state.getOllama()::Generate);
             
             System.out.println("[http-thread-server] Starting server");
             server.StartHttpServer();

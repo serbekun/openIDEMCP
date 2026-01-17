@@ -4,6 +4,8 @@ import io.javalin.Javalin;
 
 // import handles
 import http.Handles.*;
+import servers.Ollama.Ollama.Generate;
+
 
 public class Server {
     
@@ -15,13 +17,17 @@ public class Server {
 
     private boolean serverIsRunning;
 
-    public Server(Javalin svr,int port, String logFile) {
+    private Generate ollamaGenerator;
+
+    public Server(Javalin svr,int port, String logFile, Generate ollamaGenerator) {
         this.port = port;
 
         this.svr = svr;
 
         this.handles = new Handles();
         this.logger = new Logger(logFile);
+
+        this.ollamaGenerator = ollamaGenerator;
 
         InitHandles();
     }
@@ -31,6 +37,7 @@ public class Server {
      */
     private void InitHandles() {
         svr.get("/v0/api/health", ctx -> handles.getHealth().Main(ctx, logger));
+        svr.post("/v0/api/ask_model", ctx -> handles.getAskModel().Main(ctx, logger, ollamaGenerator));
     }
 
     /**

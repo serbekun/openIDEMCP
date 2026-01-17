@@ -30,7 +30,7 @@ public class Logger {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         // adding current time to log
-        String final_log = currentDateTime + " " + log;
+        String final_log = currentDateTime + " " + log + "\n";
 
         // trying write log to file
         try {
