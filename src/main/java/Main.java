@@ -7,8 +7,8 @@ import java.io.File;
 
 public class Main {
 
-    
     /**
+     * Create all folders that exist in list
      * 
      * @param needFolders List of folders that need to create
     */
@@ -27,15 +27,22 @@ public class Main {
     public static void main(String[] args) {
         
         Config config = new Config(); 
-        State state = new State(config);
+        State state = new State();
 
         List<String> needFolders = config.getNeedFolders();
         
         CreateNeedFolders(needFolders);
 
-        Server server = new Server(state.getSvr(),
-                config.getPort(), config.getLogFile());
+        
+        
+        Thread httpServerThread = new Thread(() -> {
+            Server server = new Server(state.getSvr(),
+                    config.getPort(), config.getLogFile());
+            
+            System.out.println("[http-thread-server] Starting server");
+            server.StartHttpServer();
+        }, "http-server-thread");
 
-        server.StartHttpServer();
+        httpServerThread.start();
     }
 }

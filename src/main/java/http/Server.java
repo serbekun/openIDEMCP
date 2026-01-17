@@ -30,7 +30,6 @@ public class Server {
         svr.get("/v0/api/health", ctx -> handles.getHealth().Main(ctx, logger));
     }
 
-
     /**
      * Start http server
      *
