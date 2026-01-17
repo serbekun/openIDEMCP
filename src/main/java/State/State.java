@@ -1,3 +1,4 @@
+package State;
 import io.javalin.Javalin;
 
 import servers.Ollama.Ollama;

@@ -1,12 +1,10 @@
 import java.util.List;
 
 import Config.Config;
+import State.State;
 import http.Server;
 
 import java.io.File;
-
-// temp
-import servers.Ollama.dto.GenerateResponse;
 
 public class Main {
 
