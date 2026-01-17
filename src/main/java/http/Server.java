@@ -26,7 +26,10 @@ public class Server {
         InitHandles();
     }
 
-    public void InitHandles() {
+    /**
+     * Init server handles once
+     */
+    private void InitHandles() {
         svr.get("/v0/api/health", ctx -> handles.getHealth().Main(ctx, logger));
     }
 
@@ -69,8 +72,4 @@ public class Server {
         StopHttpServer();
         StartHttpServer();
     }
-
-    
-
-
 }

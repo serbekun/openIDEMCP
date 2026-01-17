@@ -1,5 +1,7 @@
 package http.Handles;
-
+/**
+ * Class for contain handles objects
+ */
 public class Handles {
 
     private Health Health;
