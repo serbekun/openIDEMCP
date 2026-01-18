@@ -1,0 +1,6 @@
+2026-01-18T11:07:33.362310900 127.0.0.1 request /v0/api/health
+2026-01-18T12:08:18.774625934 127.0.0.1 request /v0/api/ask_model
+2026-01-18T12:08:18.792335509 Model: gemma3:1b, Prompt decoded length: 6
+2026-01-18T12:08:19.036034178 Error in generate.execute(): Cannot invoke "servers.Ollama.dto.GenerateResponse.getResponse()" because "generateResponse" is null
+2026-01-18T12:08:39.907352523 127.0.0.1 request /v0/api/ask_model
+2026-01-18T12:08:39.907821905 Base64 decoding error: Last unit does not have enough valid bits

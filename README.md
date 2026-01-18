@@ -20,10 +20,10 @@ Instead of forcing users to use AI to the fullest in every scenario, we provide 
 
 ```
 ┌───────────────────────────────────────────────────────┐
-│           Interaction Level                            │
+│           Interaction Level                           │
 ├───────────────────────────────────────────────────────┤
-│  Level 3: Autonomous AI → Autonomous mode              │
-│  Level 2: Managed   → HTTP‑API → control + flexibility │
+│  Level 3: Autonomous AI → Autonomous mode             │
+│  Level 2: Managed   → HTTP‑API → control + flexibility│
 │  Level 1: Manual    → Direct calls → Maximum control  │
 └───────────────────────────────────────────────────────┘
                           ↓

@@ -64,6 +64,7 @@ public class AskModel {
     public void Main(Context ctx, Logger logger, Generate generate) {
         logger.log(ctx.ip() + " request /v0/api/ask_model");
 
+        // get JSON body
         AskModelRequest req;
         try {
             req = ctx.bodyAsClass(AskModelRequest.class);
@@ -79,7 +80,9 @@ public class AskModel {
             return;
         }
 
+        // try generate answer
         try {
+            // decoding base64 to text
             byte[] decodedBytes = Base64.getDecoder().decode(req.prompt);
             String prompt = new String(decodedBytes, StandardCharsets.UTF_8);
             
@@ -98,7 +101,7 @@ public class AskModel {
             String base64Response = Base64.getEncoder().encodeToString(bytes);
 
             ctx.json(new AskModelResponse(base64Response, true, null));
-            
+          
         } catch (IllegalArgumentException e) {
             logger.log("Base64 decoding error: " + e.getMessage());
             ctx.json(new AskModelResponse(null, false, "Invalid base64 encoding"));
