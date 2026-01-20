@@ -13,7 +13,7 @@ import servers.Ollama.dto.GenerateResponse;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 
-public class AskModel {
+public class QueryModel {
     
     /**
      * POST /v0/api/ask_model handles for get response about user question from model

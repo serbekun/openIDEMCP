@@ -1,17 +1,18 @@
 package http.Handles;
+
 /**
  * Class for contain handles objects
  */
 public class Handles {
 
     private Health Health;
-    private AskModel askModel;
+    private QueryModel QueryModel;
 
     public Handles() {
         this.Health = new Health();
-        this.askModel = new AskModel();
+        this.QueryModel = new QueryModel();
     }
 
     public Health getHealth() { return Health; }
-    public AskModel getAskModel() { return askModel; }
+    public QueryModel getQueryModel() { return QueryModel; }
 }
