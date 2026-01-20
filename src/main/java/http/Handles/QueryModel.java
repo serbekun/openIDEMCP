@@ -4,8 +4,8 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import http.Logger;
 
-import http.dto.AskModelRequest;
-import http.dto.AskModelResponse;
+import http.dto.QueryModelRequest;
+import http.dto.QueryModelResponse;
 
 import servers.Ollama.Ollama.Generate;
 import servers.Ollama.dto.GenerateResponse;
@@ -65,18 +65,18 @@ public class QueryModel {
         logger.log(ctx.ip() + " request /v0/api/ask_model");
 
         // get JSON body
-        AskModelRequest req;
+        QueryModelRequest req;
         try {
-            req = ctx.bodyAsClass(AskModelRequest.class);
+            req = ctx.bodyAsClass(QueryModelRequest.class);
         } catch (Exception e) {
-            ctx.json(new AskModelResponse(null, false, "Invalid json format"));
+            ctx.json(new QueryModelResponse(null, false, "Invalid json format"));
             return;
         }
 
         // validation json format
         if (req.prompt == null || req.prompt.isBlank()
         || req.model == null || req.model.isBlank()) {
-            ctx.json(new AskModelResponse(null, false, "Missing required fields"));
+            ctx.json(new QueryModelResponse(null, false, "Missing required fields"));
             return;
         }
 
@@ -100,16 +100,16 @@ public class QueryModel {
             
             String base64Response = Base64.getEncoder().encodeToString(bytes);
 
-            ctx.json(new AskModelResponse(base64Response, true, null));
+            ctx.json(new QueryModelResponse(base64Response, true, null));
           
         } catch (IllegalArgumentException e) {
             logger.log("Base64 decoding error: " + e.getMessage());
-            ctx.json(new AskModelResponse(null, false, "Invalid base64 encoding"));
+            ctx.json(new QueryModelResponse(null, false, "Invalid base64 encoding"));
         } catch (Exception e) {
             logger.log("Error in generate.execute(): " + e.getMessage());
             e.printStackTrace(); // Add this for server logs
             ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
-            ctx.json(new AskModelResponse(null, false, "Internal server error"));
+            ctx.json(new QueryModelResponse(null, false, "Internal server error"));
         }
     }
 }
