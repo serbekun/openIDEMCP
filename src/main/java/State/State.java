@@ -1,8 +1,8 @@
 package State;
 import io.javalin.Javalin;
 
-import servers.Ollama.Ollama;
 import Config.Config;
+import servers.Generate;
 
 public class State {
 
@@ -10,13 +10,13 @@ public class State {
      * http-server Javalin object
      */
     private Javalin svr; 
-    private Ollama ollama;
     private Config config;
+    private Generate generate;
 
     public State(Config config) {
         this.svr = Javalin.create();
-        this.ollama = new Ollama(config.getOllamaBaseUrl());
         this.config = config;
+        this.generate = new Generate(config.getLlmServer());
     }
 
     /**
@@ -25,8 +25,8 @@ public class State {
     public synchronized Javalin getSvr() { return svr; }
 
     /**
-     * @return Ollama object
+     * @return generate object
      */
-    public synchronized Ollama getOllama() { return ollama; }
+    public synchronized Generate getGenerate() { return generate; }
     
 }
