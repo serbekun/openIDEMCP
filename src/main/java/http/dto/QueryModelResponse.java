@@ -2,7 +2,7 @@ package http.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AskModelResponse {
+public class QueryModelResponse {
     
     public String response;
     public boolean success;
@@ -10,9 +10,9 @@ public class AskModelResponse {
     @JsonProperty("error_message")
     public String errorMessage;
 
-    public AskModelResponse() {}
+    public QueryModelResponse() {}
 
-    public AskModelResponse(String response, boolean success, String errorMessage) {
+    public QueryModelResponse(String response, boolean success, String errorMessage) {
         this.response = response;
         this.success = success;
         this.errorMessage = errorMessage;

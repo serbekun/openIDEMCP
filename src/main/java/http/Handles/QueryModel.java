@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class QueryModel {
     
     /**
-     * POST /v0/api/ask_model handles for get response about user question from model
+     * POST /v0/api/query_model handles for get response about user question from model
      * 
      * <p><strong>Request example body:</strong></p>
      * <pre><code>{
@@ -62,7 +62,7 @@ public class QueryModel {
      * }
      */
     public void Main(Context ctx, Logger logger, Generate generate) {
-        logger.log(ctx.ip() + " request /v0/api/ask_model");
+        logger.log(ctx.ip() + " request /v0/api/query_model");
 
         // get JSON body
         QueryModelRequest req;
@@ -91,7 +91,7 @@ public class QueryModel {
             // Try-catch around the generate.execute() call
             GenerateResponse generateResponse = generate.execute(req.model, prompt, 0.7);
             
-            String response = generateResponse.getResponse();
+            String response = generateResponse.response;
             if (response == null) {
                 throw new Exception("Generate response is null");
             }
