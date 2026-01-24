@@ -37,7 +37,8 @@ public class Server {
      */
     private void InitHandles() {
         svr.get("/v0/api/health", ctx -> handles.getHealth().Main(ctx, logger));
-        svr.post("/v0/api/ask_model", ctx -> handles.getAskModel().Main(ctx, logger, ollamaGenerator));
+        svr.post("/v0/api/query_model", ctx -> handles.getQueryModel().Main(ctx, logger, ollamaGenerator));
+        svr.post("/v0/api/generate_task_code", ctx -> handles.getGenerateTaskCode().Main(ctx, logger, ollamaGenerator));
     }
 
     /**
@@ -54,14 +55,14 @@ public class Server {
             return false;
         }
     }
-    
+
     /**
      * Stop http server
      * 
      * @return boolean if return true server is stopped if false server is not was running
-     */
+    */
     public boolean StopHttpServer() {
-
+       
         if (serverIsRunning) {
             svr.stop();
             serverIsRunning = false;
@@ -70,6 +71,19 @@ public class Server {
         else {
             return false;
         }
+    }
+
+    public interface StartStopServer {
+        void run();
+        void stop();
+    }
+
+    public void StartHttpServerVoid() {
+        svr.start(port);
+    }
+
+    public void StopHttpServerVoid() {
+        svr.stop();
     }
 
     /**

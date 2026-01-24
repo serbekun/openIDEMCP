@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import servers.Ollama.dto.GenerateResponse;
@@ -38,6 +39,9 @@ public class Ollama {
         HttpClient client = HttpClient.newHttpClient();
         GenerateResponse generateResponse = null;
         
+        JsonStringEncoder encoder = JsonStringEncoder.getInstance();
+        String escapedPrompt = new String(encoder.quoteAsString(prompt));
+
         String requestBody = String.format("""
                 {
                     "model": "%s",
@@ -48,8 +52,8 @@ public class Ollama {
                     }
                 }
                 """, 
-                model.replace("\"", "\\\""),  // Escape quotes in model name
-                prompt.replace("\"", "\\\""),  // Escape quotes in prompt
+                model,
+                escapedPrompt,
                 temperature);
         
         System.out.printf("[Ollama] DEBUG: Created request body %s\n", requestBody);
@@ -74,7 +78,9 @@ public class Ollama {
                     
                     // Check if response field exists
                     if (jsonNode.has("response")) {
-                        generateResponse = new GenerateResponse(jsonNode.get("response").asText());
+                        generateResponse = new GenerateResponse(jsonNode.get("response").asText(),
+                    jsonNode.get("prompt_eval_count").asInt(),
+                    jsonNode.get("eval_count").asInt());
                     } else {
                         System.err.println("[Ollama] No 'response' field in JSON: " + response.body());
                     }

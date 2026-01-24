@@ -1,13 +1,13 @@
 package http.dto;
 
-public class AskModelRequest {
+public class QueryModelRequest {
     
     public String prompt;
     public String model;
 
-    public AskModelRequest() {}
+    public QueryModelRequest() {}
 
-    public AskModelRequest(String prompt, String model) {
+    public QueryModelRequest(String prompt, String model) {
         this.prompt = prompt;
         this.model = model;
     } 

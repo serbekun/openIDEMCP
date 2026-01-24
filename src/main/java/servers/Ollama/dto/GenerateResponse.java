@@ -1,13 +1,14 @@
 package servers.Ollama.dto;
 
 public class GenerateResponse {
-    private String response;
+    public String response;
+    public int prompt_eval_count;
+    public int eval_count;
 
-    public GenerateResponse(String response) {
+    public GenerateResponse(String response, int prompt_eval_count, int eval_count) {
         this.response = response;
+        this.prompt_eval_count = prompt_eval_count;
+        this.eval_count = eval_count;
     }
 
-    public String getResponse() {
-        return response;
-    }
 }
