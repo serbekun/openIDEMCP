@@ -22,13 +22,15 @@ public class Config {
         public int port;
         public String logFile;
         public String ollamaBaseUrl;
-        
+        public String llmServer;
+
         public ConfigJson() {
             this.server_folder = "openIDEMCP/";
             this.configFile = "server_config.json";
             this.port = 8080;
             this.logFile = server_folder + "log.log";
             this.ollamaBaseUrl = "http://localhost:11434/";
+            this.llmServer = "ollama";
         }
     }
     
@@ -177,5 +179,9 @@ public class Config {
     
     public synchronized List<String> getNeedFolders() {
         return new ArrayList<>(needFolders); // Return a copy to maintain encapsulation
+    }
+
+    public synchronized String getLlmServer() {
+        return configJson.llmServer; 
     }
 }

@@ -39,7 +39,7 @@ public class Main {
         // make http-server-thread
         Thread httpServerThread = new Thread(() -> {
             Server server = new Server(state.getSvr(),
-                    config.getPort(), config.getLogFile(), state.getOllama()::Generate);
+                    config.getPort(), config.getLogFile(), state.getGenerate()::generateResponse);
             
             System.out.println("[http-thread-server] Starting server");
             server.StartHttpServer();

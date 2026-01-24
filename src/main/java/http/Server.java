@@ -4,8 +4,7 @@ import io.javalin.Javalin;
 
 // import handles
 import http.Handles.*;
-import servers.Ollama.Ollama.Generate;
-
+import servers.Generate.GenerateInterface;
 
 public class Server {
     
@@ -17,9 +16,9 @@ public class Server {
 
     private boolean serverIsRunning;
 
-    private Generate ollamaGenerator;
+    private GenerateInterface generator;
 
-    public Server(Javalin svr,int port, String logFile, Generate ollamaGenerator) {
+    public Server(Javalin svr, int port, String logFile, GenerateInterface generator) {
         this.port = port;
 
         this.svr = svr;
@@ -27,7 +26,7 @@ public class Server {
         this.handles = new Handles();
         this.logger = new Logger(logFile);
 
-        this.ollamaGenerator = ollamaGenerator;
+        this.generator = generator;
 
         InitHandles();
     }
@@ -37,8 +36,8 @@ public class Server {
      */
     private void InitHandles() {
         svr.get("/v0/api/health", ctx -> handles.getHealth().Main(ctx, logger));
-        svr.post("/v0/api/query_model", ctx -> handles.getQueryModel().Main(ctx, logger, ollamaGenerator));
-        svr.post("/v0/api/generate_task_code", ctx -> handles.getGenerateTaskCode().Main(ctx, logger, ollamaGenerator));
+        svr.post("/v0/api/query_model", ctx -> handles.getQueryModel().Main(ctx, logger, generator));
+        svr.post("/v0/api/generate_task_code", ctx -> handles.getGenerateTaskCode().Main(ctx, logger, generator));
     }
 
     /**

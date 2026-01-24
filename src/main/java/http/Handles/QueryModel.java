@@ -7,8 +7,8 @@ import http.Logger;
 import http.dto.QueryModelRequest;
 import http.dto.QueryModelResponse;
 
-import servers.Ollama.Ollama.Generate;
-import servers.Ollama.dto.GenerateResponse;
+import servers.Generate.GenerateInterface;
+import servers.dto.*;
 
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
@@ -61,7 +61,7 @@ public class QueryModel {
      *      "error_message": "Internal server error"
      * }
      */
-    public void Main(Context ctx, Logger logger, Generate generate) {
+    public void Main(Context ctx, Logger logger, GenerateInterface generate) {
         logger.log(ctx.ip() + " request /v0/api/query_model");
 
         // get JSON body

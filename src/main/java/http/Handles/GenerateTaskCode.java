@@ -6,8 +6,8 @@ import java.util.Base64;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
-import servers.Ollama.Ollama.Generate;
-import servers.Ollama.dto.GenerateResponse;
+import servers.Generate.GenerateInterface;
+import servers.dto.*;
 
 import http.Logger;
 import http.dto.GenerateTaskCodeRequest;
@@ -28,7 +28,7 @@ public class GenerateTaskCode {
 
     }
 
-    public void Main(Context ctx, Logger logger, Generate generate) {
+    public void Main(Context ctx, Logger logger, GenerateInterface generate) {
         logger.log(ctx.ip() + " request /v0/api/generate_task_code");
         // get JSON body
         var req = GetRequest(ctx);
