@@ -117,7 +117,7 @@ public class GenerateTaskCode {
         } catch (IllegalArgumentException e) {
 
             logger.log("Base64 decoding error: " + e.getMessage());
-            ctx.json(new GenerateTaskCodeResponse(null, -1, "Error decoding base64",
+            ctx.json(new GenerateTaskCodeResponse(null, req.task_id, "Error decoding base64",
             0, 0, false, null));
 
         } catch (Exception e) {
@@ -125,7 +125,7 @@ public class GenerateTaskCode {
             logger.log("Error in generate.execute(): " + e.getMessage());
             e.printStackTrace();
             ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
-            ctx.json(new GenerateTaskCodeResponse(null, -1, "Internal Server Error",
+            ctx.json(new GenerateTaskCodeResponse(null, req.task_id, "Internal Server Error",
             0, 0, false, null));
 
         }
