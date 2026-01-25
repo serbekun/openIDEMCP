@@ -1,0 +1,8 @@
+{
+  "server_folder" : "openIDEMCP/",
+  "configFile" : "/home/sergei/openIDEMCP/openIDEMCP/server_config.json",
+  "port" : 8080,
+  "logFile" : "openIDEMCP/log.log",
+  "ollamaBaseUrl" : "http://localhost:11434/",
+  "llmServer" : "ollama"
+}

@@ -41,7 +41,7 @@ public class Main {
             Server server = new Server(state.getSvr(),
                     config.getPort(), config.getLogFile(), state.getGenerate()::generateResponse);
             
-            System.out.println("[http-thread-server] Starting server");
+            System.out.println("[http-server] Starting server");
             server.StartHttpServer();
         }, "http-server-thread");
 

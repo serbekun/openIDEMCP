@@ -10,9 +10,6 @@ import http.dto.QueryModelResponse;
 import servers.Generate.GenerateInterface;
 import servers.dto.*;
 
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
-
 public class QueryModel {
     
     /**
@@ -20,13 +17,13 @@ public class QueryModel {
      * 
      * <p><strong>Request example body:</strong></p>
      * <pre><code>{
-     *      "prompt": "V2hhdCB0aGUgc2lnbmF0dXJlIG9mIGZnZXRzIGZ1bmN0aW9uPw==" // prompt base64 encoded text
+     *      "prompt": "What the signature of fgets function?" // prompt base64 encoded text
      *      "model": "gemma3:4b" // model name
      * }</code></pre>
      * 
      * <p><strong>Success Response example body:</strong></p>
      * <pre><code>{
-     *      "response": "Y2hhciAqZmdldHMoY2hhciAqc3RyLCBpbnQgbiwgRklMRSAqc3RyZWFtKTsK", // model base64 encoded response
+     *      "response": "char *fgets(char *str, int n, FILE *stream);", // model base64 encoded response
      *      "success": true,
      *      "error_messages": null
      * }</code></pre>
@@ -82,31 +79,22 @@ public class QueryModel {
 
         // try generate answer
         try {
-            // decoding base64 to text
-            byte[] decodedBytes = Base64.getDecoder().decode(req.prompt);
-            String prompt = new String(decodedBytes, StandardCharsets.UTF_8);
-            
-            logger.log("Model: " + req.model + ", Prompt decoded length: " + prompt.length());
+            String prompt = req.prompt;
+
+            logger.log("[http-server/query-model] Model: " + req.model + ", Prompt decoded length: " + prompt.length());
             
             // Try-catch around the generate.execute() call
             GenerateResponse generateResponse = generate.execute(req.model, prompt, 0.7);
             
             String response = generateResponse.response;
             if (response == null) {
-                throw new Exception("Generate response is null");
+                throw new Exception("[http-server/query-model] Generate response is null");
             }
             
-            byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
-            
-            String base64Response = Base64.getEncoder().encodeToString(bytes);
-
-            ctx.json(new QueryModelResponse(base64Response, true, null));
-          
-        } catch (IllegalArgumentException e) {
-            logger.log("Base64 decoding error: " + e.getMessage());
-            ctx.json(new QueryModelResponse(null, false, "Invalid base64 encoding"));
+            ctx.json(new QueryModelResponse(response, true, null));
+        
         } catch (Exception e) {
-            logger.log("Error in generate.execute(): " + e.getMessage());
+            logger.log("[http-server/query-model] Error in generate.execute(): " + e.getMessage());
             e.printStackTrace(); // Add this for server logs
             ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
             ctx.json(new QueryModelResponse(null, false, "Internal server error"));

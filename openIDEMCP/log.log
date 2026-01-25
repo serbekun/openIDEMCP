@@ -1,0 +1,21 @@
+2026-01-25T13:14:53.911293023 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T13:14:54.069844747 Error executing model 'gemma3:1b': unsupported URI http://localhost:11434api/generate
+2026-01-25T13:17:26.576521138 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T13:17:26.581283297 Error executing model 'gemma3:1b': unsupported URI http://localhost:11434api/generate
+2026-01-25T13:20:08.702558454 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T13:27:42.036069276 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:18:39.140314305 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:19:11.574157054 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:25:42.970141447 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:27:45.747090207 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:41:22.466677337 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:41:27.996256863 Error in generate.execute(): Cannot read field "prompt_eval_count" because "generateResponseExplanation" is null
+2026-01-25T15:41:28.019775220 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:45:05.344220276 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:45:07.995071466 Error in generate.execute(): Cannot read field "prompt_eval_count" because "generateResponseExplanation" is null
+2026-01-25T15:45:08.018116869 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:46:09.236199983 127.0.0.1 request /v0/api/generate_task_code
+2026-01-25T15:46:11.657307781 Error in generate.execute(): Cannot read field "prompt_eval_count" because "generateResponseExplanation" is null
+2026-01-25T15:47:28.038618426 127.0.0.1 request /v0/api/query_model
+2026-01-25T15:47:28.041218683 [http-server/query-model] Model: gemma3:1b, Prompt decoded length: 25
+2026-01-25T15:48:13.501534619 127.0.0.1 request /v0/api/generate_task_code

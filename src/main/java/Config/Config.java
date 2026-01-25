@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 public class Config {
     
@@ -26,7 +25,8 @@ public class Config {
 
         public ConfigJson() {
             this.server_folder = "openIDEMCP/";
-            this.configFile = "server_config.json";
+            this.configFile = Paths.get(System.getProperty("user.dir"), "openIDEMCP", "server_config.json")
+                       .toString();
             this.port = 8080;
             this.logFile = server_folder + "log.log";
             this.ollamaBaseUrl = "http://localhost:11434/";
@@ -47,45 +47,49 @@ public class Config {
         needFolders.add(configJson.server_folder);
         
         // Load existing config if available
-        loadFromDisk(false);
+        loadFromDisk();
     }
     
-    /**
-     * Method for load config from disk
-     */
-    private synchronized void loadFromDisk(boolean isServerStart) {
+    private synchronized void loadFromDisk() {
         Path path = Paths.get(configJson.configFile);
         try {
-            if (Files.exists(path) && Files.size(path) > 0) {
-                String json = Files.readString(path);
-                // Deserialize config from file
-                ConfigJson loaded = mapper.readValue(json, new TypeReference<ConfigJson>() {});
-                
-                // Update current config with loaded values
-                if (loaded.server_folder != null) {
-                    configJson.server_folder = loaded.server_folder;
-                }
-                if (loaded.port > 0) {
-                    configJson.port = loaded.port;
-                }
-                if (loaded.logFile != null) {
-                    configJson.logFile = loaded.logFile;
-                }
-                if (loaded.ollamaBaseUrl != null) {
-                    configJson.ollamaBaseUrl = loaded.ollamaBaseUrl;
-                }
-                
-                // Update folder list if needed
-                needFolders.clear();
-                needFolders.add(configJson.server_folder);
-                
-                System.out.println("Configuration loaded from " + configJson.configFile);
+            if (!Files.exists(path) || Files.size(path) == 0) {
+                System.out.println("[Config] Config file not found or empty → creating default");
+                writeJson();
+                return;
             }
-        } catch (IOException e) {
-            if (!isServerStart) {
-                System.err.println("Failed to load configuration from " + configJson.configFile + 
-                                 ", using default values: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.err.println("[Config] Error check file " + e.getMessage());
+        }
+
+        try {
+            String json = Files.readString(path);
+            ConfigJson loaded = mapper.readValue(json, ConfigJson.class);
+
+            if (loaded.server_folder != null && !loaded.server_folder.isBlank()) {
+                configJson.server_folder = loaded.server_folder;
             }
+            if (loaded.port > 0) {
+                configJson.port = loaded.port;
+            }
+            if (loaded.logFile != null && !loaded.logFile.isBlank()) {
+                configJson.logFile = loaded.logFile;
+            }
+            if (loaded.ollamaBaseUrl != null && !loaded.ollamaBaseUrl.isBlank()) {
+                configJson.ollamaBaseUrl = loaded.ollamaBaseUrl;
+            }
+            if (loaded.llmServer != null && !loaded.llmServer.isBlank()) {
+                configJson.llmServer = loaded.llmServer;
+            }
+
+            needFolders.clear();
+            needFolders.add(configJson.server_folder);
+
+            System.out.println("[Config] Configuration loaded from: " + path.toAbsolutePath());
+        } catch (Exception e) {
+            System.err.println("[Config] Invalid config file: " + e.getMessage());
+            e.printStackTrace();
         }
     }
     
@@ -117,12 +121,13 @@ public class Config {
     public synchronized void writeJson() {
         try {
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(configJson);
+            System.out.println("[Config] Save config:\n" + json);
             Files.writeString(Paths.get(configJson.configFile), json,
             StandardOpenOption.CREATE,
             StandardOpenOption.WRITE,
             StandardOpenOption.TRUNCATE_EXISTING);
             
-            System.out.println("Configuration saved to " + configJson.configFile);
+            System.out.println("[Config] Configuration saved to " + configJson.configFile);
         } catch (IOException e) {
             System.err.println("[Config] Error writing configuration: " + e.getMessage());
         }
@@ -138,7 +143,7 @@ public class Config {
                 Path folder = Paths.get(folderPath);
                 if (!Files.exists(folder)) {
                     Files.createDirectories(folder);
-                    System.out.println("Created folder: " + folderPath);
+                    System.out.println("[Config] Created folder: " + folderPath);
                 }
             }
             return true;
