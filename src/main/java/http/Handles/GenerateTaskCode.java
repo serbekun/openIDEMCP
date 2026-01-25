@@ -1,7 +1,5 @@
 package http.Handles;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -29,6 +27,10 @@ public class GenerateTaskCode {
     }
 
     public void Main(Context ctx, Logger logger, GenerateInterface generate) {
+
+        int prompt_eval_count = 0;
+        int eval_count = 0;
+
         logger.log(ctx.ip() + " request /v0/api/generate_task_code");
         // get JSON body
         var req = GetRequest(ctx);
@@ -40,9 +42,12 @@ public class GenerateTaskCode {
 
         // try generate code
         try {
-            // decoding base64 to text
-            byte[] decodedBytes = Base64.getDecoder().decode(req.prompt);
-            String prompt = new String(decodedBytes, StandardCharsets.UTF_8);
+            
+            // init generate response objects
+            GenerateResponse generateResponseCode = null;
+            GenerateResponse generateResponseExplanation = null;
+
+            String prompt = req.prompt;
 
             String code_prompt = String.format(
                 "Output only code and nothing else. " +
@@ -52,8 +57,6 @@ public class GenerateTaskCode {
                 "user prompt: %s",
                 prompt
             );
-           
-            GenerateResponse generateResponseCode;
             try {
                 generateResponseCode = generate.execute(req.model, code_prompt, 0.7);
             } catch (Exception e) {
@@ -86,8 +89,6 @@ public class GenerateTaskCode {
                 "Code: %s",
                 code);
                 
-                GenerateResponse generateResponseExplanation = null;
-                
                 try {
                     generateResponseExplanation = generate.execute(req.model,
                     explanationPrompt, 0.2);
@@ -102,21 +103,23 @@ public class GenerateTaskCode {
                 explanation = generateResponseExplanation.response;
             }
 
-            // encoding to base64 code
-            byte[] bytes = code.getBytes(StandardCharsets.UTF_8);
-            String base64Code = Base64.getEncoder().encodeToString(bytes);
+            // calculate token usage
+            
+            // code
+            prompt_eval_count += generateResponseCode.prompt_eval_count;
+            eval_count += generateResponseCode.eval_count;
 
-            // encoding to base64 explanation
-            bytes = explanation.getBytes(StandardCharsets.UTF_8);
-            String base64Explanation = Base64.getEncoder().encodeToString(bytes);
+            // explanation
+            prompt_eval_count += generateResponseExplanation.prompt_eval_count;
+            eval_count += generateResponseExplanation.eval_count;
 
             // Send
-            ctx.json(new GenerateTaskCodeResponse(base64Code, req.task_id, null,
-            0, 0, true, base64Explanation));
+            ctx.json(new GenerateTaskCodeResponse(code, req.task_id, null,
+            prompt_eval_count, eval_count, true, explanation));
 
         } catch (IllegalArgumentException e) {
 
-            logger.log("Base64 decoding error: " + e.getMessage());
+            logger.log("[http-server]Base64 decoding error: " + e.getMessage());
             ctx.json(new GenerateTaskCodeResponse(null, req.task_id, "Error decoding base64",
             0, 0, false, null));
 

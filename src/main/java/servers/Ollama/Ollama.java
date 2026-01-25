@@ -15,7 +15,7 @@ import servers.Ollama.dto.GenerateResponse;
 public class Ollama {
     private final String baseUrl;
     private static final ObjectMapper mapper = new ObjectMapper();
-    
+
     private final boolean DEBUG = true;
 
     public Ollama(String baseUrl) {
@@ -56,7 +56,9 @@ public class Ollama {
                 escapedPrompt,
                 temperature);
         
-        System.out.printf("[Ollama] DEBUG: Created request body %s\n", requestBody);
+        if (DEBUG) {
+            System.out.printf("[Ollama] DEBUG: Created request body %s\n", requestBody);
+        }
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + "api/generate"))

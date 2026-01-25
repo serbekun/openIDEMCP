@@ -10,10 +10,10 @@ public class Generate {
     // servers
     private Ollama ollama;
 
-    public Generate(String llmServer) {
+    public Generate(String llmServer, String ollamaUrl) {
         this.llmServer = llmServer;
 
-        this.ollama = new Ollama("http://localhost:11434"); // TODO make url from config
+        this.ollama = new Ollama(ollamaUrl);
     }
 
     @FunctionalInterface

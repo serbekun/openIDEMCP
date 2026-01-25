@@ -16,7 +16,7 @@ public class State {
     public State(Config config) {
         this.svr = Javalin.create();
         this.config = config;
-        this.generate = new Generate(config.getLlmServer());
+        this.generate = new Generate(config.getLlmServer(), config.getOllamaBaseUrl());
     }
 
     /**
