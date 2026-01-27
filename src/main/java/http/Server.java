@@ -77,13 +77,8 @@ public class Server {
         void stop();
     }
 
-    public void StartHttpServerVoid() {
-        svr.start(port);
-    }
-
-    public void StopHttpServerVoid() {
-        svr.stop();
-    }
+    public void StartHttpServerVoid() { svr.start(port); }
+    public void StopHttpServerVoid() { svr.stop(); }
 
     /**
      * Reload http server use StopHttpServer and RunHttpServer for reload server 
